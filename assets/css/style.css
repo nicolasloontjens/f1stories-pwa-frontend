@@ -83,8 +83,8 @@ main .start-form form {
 }
 main .start-form form * {
   display: block;
-  height: 7vw;
-  width: 40vw;
+  height: 4rem;
+  width: 60%;
   font-family: "SFPro";
   margin: 1.5rem auto;
   color: black;
