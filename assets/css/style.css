@@ -2,6 +2,15 @@
   font-family: "SFPro";
   src: url("../fonts/SF-Pro-Text-Regular.otf") format("opentype");
 }
+.hidden {
+  display: none !important;
+}
+
+a {
+  text-decoration: none;
+  font-family: "SFPro";
+}
+
 @media screen and (min-width: 45rem) {
   body header #desktop {
     display: flex;
@@ -19,12 +28,10 @@
   }
   body header #desktop #desktopoptions * {
     display: inline-block;
-    font-family: "SFPro";
     color: white;
     font-size: 1.2rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    text-decoration: none;
   }
   body header #mobile {
     display: none;
@@ -49,6 +56,53 @@ header #mobile .logo {
 }
 header #desktop {
   display: none;
+}
+
+main .start {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+main .start a {
+  background-color: #c60601;
+  color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30vw;
+  font-size: 4vw;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  overflow: visible;
+  margin-bottom: 2rem;
+}
+main .start-form form {
+  margin-top: 10%;
+}
+main .start-form form * {
+  display: block;
+  height: 7vw;
+  width: 40vw;
+  font-family: "SFPro";
+  margin: 1.5rem auto;
+  color: black;
+  font-size: 1.1rem;
+}
+main .start-form form *::placeholder {
+  color: black;
+}
+main .start-form form input {
+  border: none;
+  border-radius: 10px;
+  background-color: #eaeaea;
+  box-sizing: border-box;
+  padding: 1%;
+}
+main .start-form form input[type=submit] {
+  background-color: #c60601;
+  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */

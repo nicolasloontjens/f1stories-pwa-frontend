@@ -1,6 +1,18 @@
+//sass --watch .\assets\css\style.scss .\assets\css\style.css
 @font-face {
     font-family: 'SFPro';
     src: url('../fonts/SF-Pro-Text-Regular.otf') format('opentype');
+}
+
+$f1red: #c60601;
+$formgrey: #eaeaea;
+
+.hidden{
+    display:none !important; 
+}
+a{
+    text-decoration: none;
+    font-family: 'SFPro';
 }
 
 @media screen and (min-width:45rem){
@@ -20,12 +32,10 @@
                     padding-top: 2rem;
                     *{
                         display:inline-block;
-                        font-family: 'SFPro';
                         color:white;
                         font-size: 1.2rem;
                         padding-left: 1rem;
                         padding-right: 1rem;
-                        text-decoration: none;
                     }
                 }
             }
@@ -37,7 +47,7 @@
 }
 
 header{
-    background-color: #c60601;
+    background-color: $f1red;
     height: 10vh;
     width: 100%;
     #mobile{
@@ -54,6 +64,56 @@ header{
     }
     #desktop{
         display:none;
+    }   
+}
+
+main{
+    .start{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10%;
+        a{
+            background-color: $f1red;
+            color:white;
+            display:block;
+            margin-left: auto;
+            margin-right: auto;
+            width:30vw;
+            font-size: 4vw;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            overflow:visible;
+            margin-bottom: 2rem;
+        }
     }
-    
+    .start-form{
+        form{
+            margin-top: 10%;
+            *{
+                display: block;
+                height: 7vw;
+                width: 40vw;
+                font-family: 'SFPro';
+                margin: 1.5rem auto;
+                color:black;
+                font-size: 1.1rem;
+            }
+            *::placeholder{
+                color:black;
+            }
+            input{
+                border: none;
+                border-radius: 10px;
+                background-color: $formgrey;
+                box-sizing: border-box;
+                padding: 1%;
+            }
+            input[type=submit]{
+                background-color: $f1red;
+                color: white;
+            }
+        }
+    }
 }

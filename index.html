@@ -7,6 +7,8 @@
     <title>F1 Stories</title>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script type="module" src="assets/js/data.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.js" integrity="sha512-uhGxZliQzrw9ep2yTwrHzbi+HjpvrxpqVCbuxf86KrjQehpBrfPpJ5H/TIiCf/5jDSmqA5zttGqX724CuWelGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/js/script.js"></script>
 </head>
 <body>
@@ -25,6 +27,25 @@
             </div>
         </div>
     </header>
-    <main></main>
+    <main>
+        
+    </main>
+    <section>
+        <template id="template-start-buttons">
+            <section class="start">
+                <a href="#" id="registeruser" value="register">Register</a>
+                <a href="#" id="loginuser" value="login">Login</a>
+            </section>
+        </template>
+        <template id="template-start-form">
+            <section class="start-form">
+                <form id="start-form">
+                    <input type="text" id="input-username" placeholder="Username: " required>
+                    <input type="password" id="input-password" placeholder="Password: " required>
+                    <input type="submit" id="start-form-submit" value="Submit">
+                </form>
+            </section>
+        </template>
+    </section>
 </body>
 </html>
