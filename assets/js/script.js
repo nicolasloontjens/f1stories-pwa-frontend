@@ -7,6 +7,7 @@ let datafetcher = null;
 async function init(){
     datafetcher = await import("./data.js");
     isLoggedIn();
+    document.querySelector("#burger-menu").addEventListener("click",openMobileMenu);
 }
 
 async function isLoggedIn(){
@@ -22,6 +23,7 @@ function showStart(){
     document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
         elem.classList.add("hidden");
     });
+    removeBackbutton();
     clearMain();
     //display template tag
     const template = document.querySelector("#template-start-buttons");
@@ -34,6 +36,12 @@ function showStart(){
 function addStartForm(e){
     e.preventDefault();
     clearMain();
+    document.querySelectorAll("header div").forEach(elem => {
+        if(document.querySelector("#backbutton")===null){
+            elem.insertAdjacentHTML('beforeend','<img id="backbutton" src="assets/images/back.png">')
+        }
+        document.querySelector("#backbutton").addEventListener("click",showStart);
+    })
     const template = document.querySelector("#template-start-form");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
     if(e.target.getAttribute('value') === 'register'){
@@ -73,6 +81,7 @@ function handleLogin(res){
         showHome();
     }
 }
+
 function clearMain(){
     document.querySelector("main").innerHTML = "";
 }
@@ -87,8 +96,25 @@ function parseJwt (token) {
 };
 
 async function showHome(){
+    removeBackbutton();
+    const template = document.querySelector("#template-home");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
     let data = await datafetcher.loadPosts();
-    data.forEach(post => {
+    /*data.forEach(post => {
         document.querySelector("#postcontainer").insertAdjacentHTML('beforeend','<p>a post</p>');
-    })
+    })*/
+}
+
+function removeBackbutton(){
+    if(document.querySelector('#backbutton')!==null){
+        let back = document.querySelector("#backbutton");
+        back.parentElement.removeChild(back);
+    }
+}
+
+function openMobileMenu(e){
+    e.preventDefault();
+    clearMain();
+    const template = document.querySelector("#template-mobile-menu");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
 }

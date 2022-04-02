@@ -28,6 +28,11 @@ a{
                     padding-top: 1rem;
                     padding-left: 1rem;
                 }
+                #backbutton{
+                    height: 70%;
+                    margin-top: 0.8rem;
+                    margin-right: 1rem;
+                }
                 #desktopoptions{
                     padding-top: 2rem;
                     *{
@@ -50,6 +55,7 @@ header{
     background-color: $f1red;
     height: 10vh;
     width: 100%;
+    
     #mobile{
         display: flex;
         justify-content: space-between;
@@ -60,6 +66,11 @@ header{
             height:60%;
             padding-top: 1rem;
             padding-left: 1rem;
+        }
+        #backbutton{
+            height: 70%;
+            margin-top: 0.8rem;
+            margin-right: 1rem;
         }
     }
     #desktop{
@@ -113,6 +124,34 @@ main{
             input[type=submit]{
                 background-color: $f1red;
                 color: white;
+                text-shadow: 5px 3px 7px rgb(31, 27, 27);
+            }
+        }
+    }
+    .mobile-menu{
+        background-color: $f1red;
+        display:grid;
+        grid-template-rows: repeat(4,1fr);
+        height: 90vh;
+        box-sizing: border-box;
+        padding-top: 10%;
+        div{
+            width: 100vw;
+            margin-left: auto;
+            margin-right: auto;
+            *{
+                text-align: center;
+                font-family: 'SFPro';
+                color: white;
+                font-size: 1.2rem;
+            }
+            p{
+                margin-top: 0.5rem;
+            }
+            img{
+                height: 10vh;
+                display: block;
+                margin: 0 auto;
             }
         }
     }

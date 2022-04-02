@@ -23,6 +23,11 @@ a {
     padding-top: 1rem;
     padding-left: 1rem;
   }
+  body header #desktop #backbutton {
+    height: 70%;
+    margin-top: 0.8rem;
+    margin-right: 1rem;
+  }
   body header #desktop #desktopoptions {
     padding-top: 2rem;
   }
@@ -53,6 +58,11 @@ header #mobile .logo {
   height: 60%;
   padding-top: 1rem;
   padding-left: 1rem;
+}
+header #mobile #backbutton {
+  height: 70%;
+  margin-top: 0.8rem;
+  margin-right: 1rem;
 }
 header #desktop {
   display: none;
@@ -103,6 +113,34 @@ main .start-form form input {
 main .start-form form input[type=submit] {
   background-color: #c60601;
   color: white;
+  text-shadow: 5px 3px 7px #1f1b1b;
+}
+main .mobile-menu {
+  background-color: #c60601;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  height: 90vh;
+  box-sizing: border-box;
+  padding-top: 10%;
+}
+main .mobile-menu div {
+  width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+main .mobile-menu div * {
+  text-align: center;
+  font-family: "SFPro";
+  color: white;
+  font-size: 1.2rem;
+}
+main .mobile-menu div p {
+  margin-top: 0.5rem;
+}
+main .mobile-menu div img {
+  height: 10vh;
+  display: block;
+  margin: 0 auto;
 }
 
 /*# sourceMappingURL=style.css.map */

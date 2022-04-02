@@ -15,7 +15,7 @@
     <header>
         <div id="mobile">
             <img src="assets/images/f1storieslogo.png" class="logo">
-            <img src="assets/images/burger.png">
+            <img src="assets/images/burger.png" id="burger-menu">
         </div>
         <div id="desktop">
             <img src="assets/images/f1storieslogo.png" class="logo">
@@ -28,11 +28,7 @@
         </div>
     </header>
     <main>
-        <section id="home">
-            <div id="postcontainer">
-
-            </div>
-        </section>
+        
         
     </main>
     <section>
@@ -50,6 +46,33 @@
                     <input type="submit" id="start-form-submit" value="Submit">
                     <p id="errors"></p>
                 </form>
+            </section>
+        </template>
+        <template id="template-home">
+            <section id="home">
+                <div id="postcontainer">
+    
+                </div>
+            </section>
+        </template>
+        <template id="template-mobile-menu">
+            <section class="mobile-menu">
+                <div>
+                    <img src="assets/images/create-post.png">
+                    <p>Create Post</p>
+                </div>   
+                <div>
+                    <img src="assets/images/view-profile.png">
+                    <p>View Profile</p>
+                </div>
+                <div>
+                    <img src="assets/images/add-race.png">
+                    <p>Add Race</p>
+                </div>
+                <div>
+                    <img src="assets/images/open-settings.png">
+                    <p>Open Settings</p>
+                </div>
             </section>
         </template>
     </section>
