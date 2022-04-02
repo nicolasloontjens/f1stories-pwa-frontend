@@ -1,0 +1,54 @@
+@font-face {
+  font-family: "SFPro";
+  src: url("../fonts/SF-Pro-Text-Regular.otf") format("opentype");
+}
+@media screen and (min-width: 45rem) {
+  body header #desktop {
+    display: flex;
+    justify-content: space-between;
+    height: 10vh;
+    width: 100%;
+  }
+  body header #desktop .logo {
+    height: 60%;
+    padding-top: 1rem;
+    padding-left: 1rem;
+  }
+  body header #desktop #desktopoptions {
+    padding-top: 2rem;
+  }
+  body header #desktop #desktopoptions * {
+    display: inline-block;
+    font-family: "SFPro";
+    color: white;
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-decoration: none;
+  }
+  body header #mobile {
+    display: none;
+  }
+}
+header {
+  background-color: #c60601;
+  height: 10vh;
+  width: 100%;
+}
+header #mobile {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 10vh;
+  width: 100%;
+}
+header #mobile .logo {
+  height: 60%;
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
+header #desktop {
+  display: none;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'SFPro';
+    src: url('../fonts/SF-Pro-Text-Regular.otf') format('opentype');
+}
+
+@media screen and (min-width:45rem){
+    body{
+        header{
+            #desktop{
+                display:flex;
+                justify-content: space-between;
+                height: 10vh;
+                width: 100%;
+                .logo{
+                    height:60%;
+                    padding-top: 1rem;
+                    padding-left: 1rem;
+                }
+                #desktopoptions{
+                    padding-top: 2rem;
+                    *{
+                        display:inline-block;
+                        font-family: 'SFPro';
+                        color:white;
+                        font-size: 1.2rem;
+                        padding-left: 1rem;
+                        padding-right: 1rem;
+                        text-decoration: none;
+                    }
+                }
+            }
+            #mobile{
+                display:none;
+            }
+        }
+    }
+}
+
+header{
+    background-color: #c60601;
+    height: 10vh;
+    width: 100%;
+    #mobile{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        height: 10vh;
+        width: 100%;
+        .logo{
+            height:60%;
+            padding-top: 1rem;
+            padding-left: 1rem;
+        }
+    }
+    #desktop{
+        display:none;
+    }
+    
+}
