@@ -23,3 +23,10 @@ export async function loginUser(data){
     let response = await res.json();
     return response;
 }
+
+export async function loadPosts(){
+    const response = await fetch(`${apiurl}/stories`);
+    let data = await response.json();
+    return data;
+}
+

@@ -86,6 +86,9 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 };
 
-function showHome(){
-    //here we show all the posts, etc
+async function showHome(){
+    let data = await datafetcher.loadPosts();
+    data.forEach(post => {
+        document.querySelector("#postcontainer").insertAdjacentHTML('beforeend','<p>a post</p>');
+    })
 }
