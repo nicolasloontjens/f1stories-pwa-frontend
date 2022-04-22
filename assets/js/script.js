@@ -99,10 +99,7 @@ function parseJwt (token) {
 };
 
 async function showHome(){
-    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
-        elem.classList.remove("hidden");
-    });
-    removeBackbutton();
+    removeBackbuttonAndDisplayHamburgerMenu()
     clearMain();
     
     const template = document.querySelector("#template-home");
@@ -130,7 +127,6 @@ async function showHome(){
             <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
     </container>`);
-        console.log(post)
         if(post.liked === 1){
             document.querySelector(`#post${post.storyid} .postfooter`).insertAdjacentHTML("afterbegin", `<div liked="true" storyid="${post.storyid}" class="postinteractionbutton"><img src="./assets/images/liked.png"></div>`)
         }else{
@@ -146,7 +142,10 @@ async function showHome(){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
         }
     }
-    //make images clickable
+    addStoryEventListeners();
+}
+
+function addStoryEventListeners(){
     document.querySelectorAll('.postimage').forEach(elem => {
         elem.addEventListener("dblclick", toggleFullScreen);
         elem.addEventListener("click", toggleFullScreen);
@@ -165,6 +164,7 @@ async function showHome(){
     })
 }
 
+
 function toggleFullScreen(e){
     if(!document.fullscreenElement){
         e.target.requestFullscreen();
@@ -176,6 +176,7 @@ function toggleFullScreen(e){
     }
 }
 
+//like / dislike posts
 function interactWithPost(e){
     let currstatus = (e.currentTarget.getAttribute("liked")=='true');
     let storyid = e.currentTarget.getAttribute("storyid");
@@ -192,6 +193,7 @@ function interactWithPost(e){
     }
 }
 
+//view comments
 function goToComments(e){
 
 }
@@ -208,6 +210,23 @@ function openMobileMenu(e){
     clearMain();
     const template = document.querySelector("#template-mobile-menu");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
+    removeHamburgerMenuandDisplayBackbutton()
+    //add eventlisteners to move to different pages
+    document.querySelector(".viewprofilemobilebutton").addEventListener("click",showProfile);
+    //document.querySelector(".createpostmobilebutton").addEventListener("click",createPost);
+    //document.querySelector(".addracemobilebutton").addEventListener("click",addRace);
+    //document.querySelector(".opensettingsmobilebutton").addEventListener("click",openSettings);
+}
+
+function removeBackbuttonAndDisplayHamburgerMenu(){
+    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+        elem.classList.remove("hidden");
+    });
+    removeBackbutton();
+    clearMain();
+}
+
+function removeHamburgerMenuandDisplayBackbutton(){
     document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
         elem.classList.add("hidden");
     });
@@ -217,4 +236,51 @@ function openMobileMenu(e){
         }
         document.querySelector("#backbutton").addEventListener("click",showHome);
     })
+}
+
+async function showProfile(){
+    removeBackbuttonAndDisplayHamburgerMenu();
+    const template = document.querySelector("#template-profile");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
+    let user = await datafetcher.getUserData();
+    console.log(user);
+    document.querySelector("#profileinfo").insertAdjacentHTML(`afterbegin`,`<h1>${user.username}</h1>
+    <div>
+    <h2>Userscore:</h2> <h2>${user.userscore}</h2>
+    <h2>Stories:</h2> <h2>${user.stories.length}</h2>
+    <h2>Races visited:</h2> <h2>${user.racesvisited}</h2>
+    <h2>Posts:</h2>
+    </div>`);
+
+    for(const post of user.stories){
+        let date = new Date(post.date)
+        let comments = await datafetcher.getComments(post.storyid);
+        document.querySelector("#profileposts").insertAdjacentHTML('beforeend',`<container id="post${post.storyid}" class="post">
+        <div class="postheader">
+            <div>
+                <p>${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${post.country}</p>
+            </div>
+            <p class="postscore">${post.score}</p>
+        </div>
+        <div class="postbody">
+           <p>${post.content}</p>
+        </div>
+        <div class="postimages">
+        </div>
+        <div class="postfooter">
+            <div storyid="${post.storyid}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
+            <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
+        </div>
+    </container>`);
+        if(post.image1 !== null){
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
+        }
+        if(post.image2 !== null){
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image2}">`)
+        }
+        if(post.image3 !== null){
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
+        }
+    }
+    addStoryEventListeners();
 }

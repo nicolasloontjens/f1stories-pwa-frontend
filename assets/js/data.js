@@ -77,3 +77,9 @@ export async function sendInteraction(storyid, interaction){
     });
 }
 
+export async function getUserData(){
+    let uid = await localforage.getItem("uid");
+    const res = await fetch(`${apiurl}/users/${uid}`);
+    const response = await res.json()
+    return response;
+}

@@ -11,7 +11,7 @@ html, body {
   display: none !important;
 }
 
-a, p {
+a, p, h1, h2 {
   text-decoration: none;
   font-family: "SFPro";
 }
@@ -55,7 +55,6 @@ header {
   background-color: #c60601;
   height: 10vh;
   width: 100%;
-  margin-bottom: 2rem;
 }
 header #mobile {
   display: flex;
@@ -152,37 +151,38 @@ main .mobile-menu div img {
   display: block;
   margin: 0 auto;
 }
-main #home #postcontainer {
+main #postcontainer, main #profileposts {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  padding-top: 2rem;
 }
-main #home #postcontainer * {
+main #postcontainer *, main #profileposts * {
   width: 100vw;
   max-width: 390px;
 }
-main #home #postcontainer .post {
+main #postcontainer .post, main #profileposts .post {
   box-sizing: border-box;
   border-radius: 6px;
   max-width: 390px;
   margin-bottom: 3rem;
   background-color: #f4f4f4;
 }
-main #home #postcontainer .post * {
+main #postcontainer .post *, main #profileposts .post * {
   box-sizing: border-box;
 }
-main #home #postcontainer .post p {
+main #postcontainer .post p, main #profileposts .post p {
   width: 100%;
   word-break: break-all;
 }
-main #home #postcontainer .post .postheader {
+main #postcontainer .post .postheader, main #profileposts .post .postheader {
   background-color: #eeeeee;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   padding: 1rem;
   display: flex;
 }
-main #home #postcontainer .post .postheader .postscore {
+main #postcontainer .post .postheader .postscore, main #profileposts .post .postheader .postscore {
   width: 20%;
   text-align: center;
   font-weight: bolder;
@@ -190,58 +190,84 @@ main #home #postcontainer .post .postheader .postscore {
   font-size: 1.5rem;
   padding-top: 0.2rem;
 }
-main #home #postcontainer .post .postheader div {
+main #postcontainer .post .postheader div, main #profileposts .post .postheader div {
   width: 80%;
 }
-main #home #postcontainer .post .postheader div p {
+main #postcontainer .post .postheader div p, main #profileposts .post .postheader div p {
   width: 100%;
 }
-main #home #postcontainer .post .postbody {
+main #postcontainer .post .postbody, main #profileposts .post .postbody {
   padding: 1rem;
 }
-main #home #postcontainer .post .postimages {
+main #postcontainer .post .postimages, main #profileposts .post .postimages {
   padding: 1rem;
 }
-main #home #postcontainer .post .postimages img {
+main #postcontainer .post .postimages img, main #profileposts .post .postimages img {
   width: 80px;
   height: 80px;
   margin-right: 1rem;
 }
-main #home #postcontainer .post .postfooter {
+main #postcontainer .post .postfooter, main #profileposts .post .postfooter {
   display: flex;
   background-color: #eeeeee;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   padding: 1rem;
 }
-main #home #postcontainer .post .postfooter .postinteractionbutton * {
+main #postcontainer .post .postfooter .postinteractionbutton *, main #profileposts .post .postfooter .postinteractionbutton * {
   display: block;
   margin-left: 1rem;
   margin-top: 0.5rem;
 }
-main #home #postcontainer .post .postfooter .postsharebutton * {
+main #postcontainer .post .postfooter .postsharebutton *, main #profileposts .post .postfooter .postsharebutton * {
   float: right;
   display: block;
   margin-right: 2rem;
   margin-top: 0.5rem;
 }
-main #home #postcontainer .post .postfooter .postcommentbutton {
+main #postcontainer .post .postfooter .postcommentbutton, main #profileposts .post .postfooter .postcommentbutton {
   display: flex;
 }
-main #home #postcontainer .post .postfooter .postcommentbutton * {
+main #postcontainer .post .postfooter .postcommentbutton *, main #profileposts .post .postfooter .postcommentbutton * {
   margin-top: 0.5rem;
 }
-main #home #postcontainer .post .postfooter .postcommentbutton p {
+main #postcontainer .post .postfooter .postcommentbutton p, main #profileposts .post .postfooter .postcommentbutton p {
   padding-top: 0.4rem;
   padding-left: 0.2rem;
   font-weight: bold;
 }
-main #home #postcontainer .post .postfooter .postcommentbutton img {
+main #postcontainer .post .postfooter .postcommentbutton img, main #profileposts .post .postfooter .postcommentbutton img {
   margin-left: 1.5rem;
 }
-main #home #postcontainer .post .postfooter img {
+main #postcontainer .post .postfooter img, main #profileposts .post .postfooter img {
   width: 35px;
   height: 35px;
+}
+main #profileinfo {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+main #profileinfo div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+main #profileinfo div h2:nth-child(2n) {
+  text-align: end;
+  padding-right: 1rem;
+}
+main #profileinfo h1 {
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+}
+main #profileinfo h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+main #profileinfo h2:last-of-type {
+  margin-top: 1.5rem;
+}
+main #profileposts {
+  padding-top: 0;
 }
 
 /*# sourceMappingURL=style.css.map */
