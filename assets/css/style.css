@@ -2,11 +2,16 @@
   font-family: "SFPro";
   src: url("../fonts/SF-Pro-Text-Regular.otf") format("opentype");
 }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .hidden {
   display: none !important;
 }
 
-a {
+a, p {
   text-decoration: none;
   font-family: "SFPro";
 }
@@ -41,11 +46,16 @@ a {
   body header #mobile {
     display: none;
   }
+  body .postcontainer .post {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
 }
 header {
   background-color: #c60601;
   height: 10vh;
   width: 100%;
+  margin-bottom: 2rem;
 }
 header #mobile {
   display: flex;
@@ -141,6 +151,97 @@ main .mobile-menu div img {
   height: 10vh;
   display: block;
   margin: 0 auto;
+}
+main #home #postcontainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+main #home #postcontainer * {
+  width: 100vw;
+  max-width: 390px;
+}
+main #home #postcontainer .post {
+  box-sizing: border-box;
+  border-radius: 6px;
+  max-width: 390px;
+  margin-bottom: 3rem;
+  background-color: #f4f4f4;
+}
+main #home #postcontainer .post * {
+  box-sizing: border-box;
+}
+main #home #postcontainer .post p {
+  width: 100%;
+  word-break: break-all;
+}
+main #home #postcontainer .post .postheader {
+  background-color: #eeeeee;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 1rem;
+  display: flex;
+}
+main #home #postcontainer .post .postheader .postscore {
+  width: 20%;
+  text-align: center;
+  font-weight: bolder;
+  color: #c60601;
+  font-size: 1.5rem;
+  padding-top: 0.2rem;
+}
+main #home #postcontainer .post .postheader div {
+  width: 80%;
+}
+main #home #postcontainer .post .postheader div p {
+  width: 100%;
+}
+main #home #postcontainer .post .postbody {
+  padding: 1rem;
+}
+main #home #postcontainer .post .postimages {
+  padding: 1rem;
+}
+main #home #postcontainer .post .postimages img {
+  width: 80px;
+  height: 80px;
+  margin-right: 1rem;
+}
+main #home #postcontainer .post .postfooter {
+  display: flex;
+  background-color: #eeeeee;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding: 1rem;
+}
+main #home #postcontainer .post .postfooter .postinteractionbutton * {
+  display: block;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+main #home #postcontainer .post .postfooter .postsharebutton * {
+  float: right;
+  display: block;
+  margin-right: 2rem;
+  margin-top: 0.5rem;
+}
+main #home #postcontainer .post .postfooter .postcommentbutton {
+  display: flex;
+}
+main #home #postcontainer .post .postfooter .postcommentbutton * {
+  margin-top: 0.5rem;
+}
+main #home #postcontainer .post .postfooter .postcommentbutton p {
+  padding-top: 0.4rem;
+  padding-left: 0.2rem;
+  font-weight: bold;
+}
+main #home #postcontainer .post .postfooter .postcommentbutton img {
+  margin-left: 1.5rem;
+}
+main #home #postcontainer .post .postfooter img {
+  width: 35px;
+  height: 35px;
 }
 
 /*# sourceMappingURL=style.css.map */

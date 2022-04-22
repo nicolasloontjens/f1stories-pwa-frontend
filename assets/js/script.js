@@ -3,6 +3,9 @@
 document.addEventListener("DOMContentLoaded",init);
 
 let datafetcher = null;
+const apiurl = "http://localhost:3001/api";
+const backendurl = "http://localhost:3001"
+
 
 async function init(){
     datafetcher = await import("./data.js");
@@ -96,13 +99,61 @@ function parseJwt (token) {
 };
 
 async function showHome(){
+    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+        elem.classList.remove("hidden");
+    });
     removeBackbutton();
+    clearMain();
     const template = document.querySelector("#template-home");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
     let data = await datafetcher.loadPosts();
-    /*data.forEach(post => {
-        document.querySelector("#postcontainer").insertAdjacentHTML('beforeend','<p>a post</p>');
-    })*/
+    data.forEach(post => {
+        let date = new Date(post.date)
+        document.querySelector("#postcontainer").insertAdjacentHTML('beforeend',`<container id="post${post.storyid}" class="post">
+        <div class="postheader">
+            <div>
+                <p>${post.username}</p>
+                <p>${post.racename} - ${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${post.country}</p>
+            </div>
+            <p class="postscore">${post.score}</p>
+        </div>
+        <div class="postbody">
+           <p>${post.content}</p>
+        </div>
+        <div class="postimages">
+        </div>
+        <div class="postfooter">
+            <div class="postinteractionbutton"><img src="./assets/images/liked.png"></div>
+            <div class="postcommentbutton"><img src="./assets/images/comments.png"><p>101</p></div>
+            <div class="postsharebutton"><img src="./assets/images/share.png"></div>
+        </div>
+    </container>`);
+        if(post.image1 !== null){
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
+        }
+        if(post.image2 !== null){
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image2}">`)
+        }
+        if(post.image3 !== null){
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
+        }
+    });
+    //make images clickable
+    document.querySelectorAll('.postimage').forEach(elem => {
+        elem.addEventListener("dblclick", toggleFullScreen);
+        elem.addEventListener("click", toggleFullScreen);
+    })
+}
+
+function toggleFullScreen(e){
+    if(!document.fullscreenElement){
+        e.target.requestFullscreen();
+    }
+    else{
+        if(document.exitFullscreen){
+            document.exitFullscreen();
+        }
+    }
 }
 
 function removeBackbutton(){
@@ -117,4 +168,13 @@ function openMobileMenu(e){
     clearMain();
     const template = document.querySelector("#template-mobile-menu");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
+    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+        elem.classList.add("hidden");
+    });
+    document.querySelectorAll("header div").forEach(elem => {
+        if(document.querySelector("#backbutton")===null){
+            elem.insertAdjacentHTML('beforeend','<img id="backbutton" src="assets/images/back.png">')
+        }
+        document.querySelector("#backbutton").addEventListener("click",showHome);
+    })
 }

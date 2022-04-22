@@ -4,16 +4,22 @@
     src: url('../fonts/SF-Pro-Text-Regular.otf') format('opentype');
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 $f1red: #c60601;
 $formgrey: #eaeaea;
 
 .hidden{
     display:none !important; 
 }
-a{
+a, p{
     text-decoration: none;
     font-family: 'SFPro';
 }
+
 
 @media screen and (min-width:45rem){
     body{
@@ -48,6 +54,12 @@ a{
                 display:none;
             }
         }
+        .postcontainer{
+            .post{
+                margin-left: 2rem;
+                margin-right: 2rem;
+            }
+        }
     }
 }
 
@@ -55,7 +67,7 @@ header{
     background-color: $f1red;
     height: 10vh;
     width: 100%;
-    
+    margin-bottom: 2rem;
     #mobile{
         display: flex;
         justify-content: space-between;
@@ -152,6 +164,104 @@ main{
                 height: 10vh;
                 display: block;
                 margin: 0 auto;
+            }
+        }
+    }
+    #home{
+        #postcontainer{
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            *{
+                width: 100vw;
+                max-width: 390px;
+            }
+            .post{
+                box-sizing: border-box;
+                *{
+                    box-sizing: border-box;
+                }
+                border-radius: 6px;
+                max-width: 390px;
+                margin-bottom: 3rem;
+                background-color: #f4f4f4;
+                p{
+                    width: 100%;
+                    word-break: break-all;
+                }
+                .postheader{
+                    background-color: #eeeeee;
+                    border-top-left-radius: 6px;
+                    border-top-right-radius: 6px;
+                    padding: 1rem;
+                    display:flex;
+                    .postscore{
+                        width:20%;
+                        text-align: center;
+                        font-weight: bolder;
+                        color: $f1red;
+                        font-size: 1.5rem;
+                        padding-top: 0.2rem;
+                    }
+                    div{
+                        p{
+                            width:100%;
+                        }
+                        width: 80%;
+                    }
+                }
+                .postbody{
+                    padding: 1rem;
+                }
+                .postimages{
+                    img{
+                        width: 80px;
+                        height: 80px;
+                        margin-right: 1rem;
+                    }
+                    padding:1rem;
+
+                }
+                .postfooter{
+                    display: flex;
+                    background-color: #eeeeee;
+                    border-bottom-left-radius: 6px;
+                    border-bottom-right-radius: 6px;
+                    padding:1rem;
+                    .postinteractionbutton{
+                        *{
+                            display: block;
+                            margin-left: 1rem;
+                            margin-top: 0.5rem;
+                        }
+                    }
+                    .postsharebutton{
+                        *{
+                            float:right;
+                            display: block;
+                            margin-right: 2rem;
+                            margin-top: 0.5rem;
+                        }
+                    }
+                    .postcommentbutton{
+                        display: flex;
+                        *{
+                            margin-top: 0.5rem;
+                        }
+                        p{
+                            padding-top: 0.4rem;
+                            padding-left: 0.2rem;
+                            font-weight: bold;
+                        }
+                        img{
+                            margin-left: 1.5rem;
+                        }
+                    }
+                    img{
+                        width:35px;
+                        height:35px;
+                    }
+                }
             }
         }
     }
