@@ -36,6 +36,12 @@ export async function getRaces(){
     return response;
 }
 
+export async function getComments(id){
+    const res = await fetch(`${apiurl}/stories/${id}/comments`);
+    let response = await res.json();
+    return response;
+}
+
 export async function loadPosts(){
     const response = await fetch(`${apiurl}/stories`);
     let data = await response.json();
@@ -56,5 +62,18 @@ export async function loadPosts(){
         }
     })
     return data;
+}
+
+export async function sendInteraction(storyid, interaction){
+    let token = await localforage.getItem("token");
+    const data = new FormData();
+    data.set('interact',interaction);
+    await fetch(`${apiurl}/stories/${storyid}/interact`,{
+        method:'POST',
+        headers:{
+            'authorization': token
+        },
+        body: data
+    });
 }
 

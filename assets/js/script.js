@@ -104,11 +104,14 @@ async function showHome(){
     });
     removeBackbutton();
     clearMain();
+    
     const template = document.querySelector("#template-home");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
+
     let data = await datafetcher.loadPosts();
-    data.forEach(post => {
+    for(const post of data){
         let date = new Date(post.date)
+        let comments = await datafetcher.getComments(post.storyid);
         document.querySelector("#postcontainer").insertAdjacentHTML('beforeend',`<container id="post${post.storyid}" class="post">
         <div class="postheader">
             <div>
@@ -123,11 +126,16 @@ async function showHome(){
         <div class="postimages">
         </div>
         <div class="postfooter">
-            <div class="postinteractionbutton"><img src="./assets/images/liked.png"></div>
-            <div class="postcommentbutton"><img src="./assets/images/comments.png"><p>101</p></div>
-            <div class="postsharebutton"><img src="./assets/images/share.png"></div>
+            <div storyid="${post.storyid}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
+            <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
     </container>`);
+        console.log(post)
+        if(post.liked === 1){
+            document.querySelector(`#post${post.storyid} .postfooter`).insertAdjacentHTML("afterbegin", `<div liked="true" storyid="${post.storyid}" class="postinteractionbutton"><img src="./assets/images/liked.png"></div>`)
+        }else{
+            document.querySelector(`#post${post.storyid} .postfooter`).insertAdjacentHTML("afterbegin", `<div liked="false" storyid="${post.storyid}" class="postinteractionbutton"><img src="./assets/images/notliked.png"></div>`)
+        }
         if(post.image1 !== null){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
         }
@@ -137,11 +145,23 @@ async function showHome(){
         if(post.image3 !== null){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
         }
-    });
+    }
     //make images clickable
     document.querySelectorAll('.postimage').forEach(elem => {
         elem.addEventListener("dblclick", toggleFullScreen);
         elem.addEventListener("click", toggleFullScreen);
+    })
+    
+    document.querySelectorAll(".postinteractionbutton").forEach(elem => {
+        elem.addEventListener("click",interactWithPost);
+    })
+    document.querySelectorAll(".postcommentbutton").forEach(elem => {
+        elem.addEventListener("click",goToComments);
+    })
+    document.querySelectorAll(".postsharebutton").forEach(elem => {
+        elem.addEventListener("click",()=>{
+            window.open(`https://twitter.com/intent/tweet?text=I love this post on the F1 Stories app titled: ${elem.getAttribute('title')}`, '_blank');
+        });
     })
 }
 
@@ -154,6 +174,26 @@ function toggleFullScreen(e){
             document.exitFullscreen();
         }
     }
+}
+
+function interactWithPost(e){
+    let currstatus = (e.currentTarget.getAttribute("liked")=='true');
+    let storyid = e.currentTarget.getAttribute("storyid");
+    if(currstatus){
+        document.querySelector(`#post${storyid} .postscore`).innerHTML = parseInt(document.querySelector(`#post${storyid} .postscore`).innerHTML) - 1
+        e.target.setAttribute('src','./assets/images/notliked.png')
+        e.currentTarget.setAttribute('liked','false');
+        datafetcher.sendInteraction(storyid, 0);
+    }else{
+        document.querySelector(`#post${storyid} .postscore`).innerHTML = parseInt(document.querySelector(`#post${storyid} .postscore`).innerHTML) + 1
+        e.target.setAttribute('src','./assets/images/liked.png')
+        e.currentTarget.setAttribute('liked','true');
+        datafetcher.sendInteraction(storyid, 1);
+    }
+}
+
+function goToComments(e){
+
 }
 
 function removeBackbutton(){
