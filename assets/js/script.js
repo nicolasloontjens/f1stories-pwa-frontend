@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded",init);
 let datafetcher = null;
 const apiurl = "http://localhost:3001/api";
 const backendurl = "http://localhost:3001"
+let commentstoryid = 0;
 
 
 async function init(){
@@ -23,11 +24,11 @@ async function isLoggedIn(){
 
 function showStart(){
     //hide the buttons in nav, display register or login button;
-    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+    document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
         elem.classList.add("hidden");
     });
-    removeBackbutton();
-    clearMain();
+    removeBackbutton();//removes back buttons in header
+    clearMain();//empty main
     //display template tag
     const template = document.querySelector("#template-start-buttons");
     document.querySelector("main").appendChild(template.content.cloneNode(true)); 
@@ -40,10 +41,8 @@ function addStartForm(e){
     e.preventDefault();
     clearMain();
     document.querySelectorAll("header div").forEach(elem => {
-        if(document.querySelector("#backbutton")===null){
-            elem.insertAdjacentHTML('beforeend','<img id="backbutton" src="assets/images/back.png">')
-        }
-        document.querySelector("#backbutton").addEventListener("click",showStart);
+        elem.insertAdjacentHTML("beforeend",'<img class="backbutton" src="assets/images/back.png">')
+        document.querySelectorAll(".backbutton").forEach(elem => elem.addEventListener('click',showStart));
     })
     const template = document.querySelector("#template-start-form");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
@@ -77,10 +76,13 @@ function handleLogin(res){
         localforage.setItem('token',res.token);
         localforage.setItem('loggedin',true);
         localforage.setItem('uid',parseJwt(res.token).uid);
-        clearMain();
-        document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+        clearMain();//empty main
+        //unhide the menu options
+        document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
             elem.classList.remove("hidden");
         });
+        //remove the back button
+        removeBackbutton();
         showHome();
     }
 }
@@ -99,7 +101,6 @@ function parseJwt (token) {
 };
 
 async function showHome(){
-    removeBackbuttonAndDisplayHamburgerMenu()
     clearMain();
     document.querySelectorAll(".logo").forEach(elem => {elem.addEventListener("click",showHome)});
     
@@ -199,6 +200,11 @@ async function goToComments(e){
     const storyid = e.currentTarget.getAttribute('storyid');
     const username = e.currentTarget.getAttribute('username');
     const gp = e.currentTarget.getAttribute('gp');
+    commentstoryid = storyid;
+    await displayComments(storyid, username, gp);
+}
+
+async function displayComments(storyid, username, gp){
     if(document.querySelector("#home") !== null){
         document.querySelector("#home").classList.add("hidden");
     }else{
@@ -209,10 +215,9 @@ async function goToComments(e){
     <h1>${username} - ${gp}</h1>
     <div class="comments-list">
     </div>
-    <button storyid="${storyid}" id="displayaddcommentbutton">Add a comment</button> 
+    <button username="${username}" gp="${gp}" id="displayaddcommentbutton">Add a comment</button> 
     </section>`)
     for(const comment of comments){
-        console.log(comment)
         document.querySelector(".comments-list").insertAdjacentHTML("beforeend",`
         <div>
         <h3>${comment.username}</h3>
@@ -220,42 +225,92 @@ async function goToComments(e){
         </div>
         `)
     }
-    document.querySelector("#displayaddcommentbutton").addEventListener("click", showAddCommentPage);
+    commentsUI();
+}
+
+function commentsUI(){
+    document.querySelector("#displayaddcommentbutton").addEventListener("click",showAddCommentPage);
     //hide hamburger menu
-    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+    document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
         elem.classList.add("hidden");
     });
     //insert backbutton + add eventlistener to go back to home without refreshing
-    document.querySelectorAll("header div").forEach(elem => {
-        if(document.querySelector("#backbutton")===null){
-            elem.insertAdjacentHTML('beforeend','<img id="backbutton" src="assets/images/back.png">')
-        }
-        document.querySelector("#backbutton").addEventListener("click",(e)=>{
-            document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
-                elem.classList.remove("hidden");
-            });
-            removeBackbutton();
-            document.querySelector('#comments').remove();
-            if(document.querySelector("#home") !== null){
-                document.querySelector("#home").classList.remove("hidden");
-            }else{
-                document.querySelector("#profile").classList.remove("hidden");
-            }
-        });
+    document.querySelectorAll("header>div").forEach(elem => {
+        elem.insertAdjacentHTML("beforeend",'<img class="backbutton" src="assets/images/back.png">')
+        document.querySelectorAll('.backbutton').forEach(elem => {
+            elem.addEventListener('click',(e) => {
+                e.stopImmediatePropagation()
+                document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
+                    elem.classList.remove("hidden");
+                });
+                removeBackbutton();
+                document.querySelector('#comments').remove();
+                if(document.querySelector("#home") !== null){
+                    document.querySelector("#home").classList.remove("hidden");
+                }else{
+                    document.querySelector("#profile").classList.remove("hidden");
+                }
+            })
+        })
     })
 }
 
-function showAddCommentPage(e){
+async function showAddCommentPage(e){
+    removeBackbutton();
     e.preventDefault();
+    let username = e.currentTarget.getAttribute("username");
+    let gp = e.currentTarget.getAttribute("gp");
     document.querySelector("#comments").classList.add("hidden");
+    document.querySelector("main").insertAdjacentHTML("afterbegin",`
+        <section id="add-comment">
+            <h1>Your comment:</h1>
+            <input id="commmentcontent" type="text">
+            <button id="postcommentbutton">Post</button>
+        </section>
+    `)
+    document.querySelector("#postcommentbutton").addEventListener("click",async ()=>{
+        await submitComment();
+        document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
+            elem.classList.remove("hidden");
+        });
+        removeBackbutton();
+        document.querySelector('#add-comment').remove();
+        document.querySelector("#comments").remove();
+        displayComments(commentstoryid, username, gp);
+    })
+    addCommentsUI(username, gp);
+}
 
+function addCommentsUI(username, gp){
+    document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
+        elem.classList.add("hidden");
+    });
+    document.querySelectorAll("header>div").forEach(elem => {
+        elem.insertAdjacentHTML("beforeend",'<img class="backbutton" src="assets/images/back.png">')
+        document.querySelectorAll('.backbutton').forEach(elem => {
+            elem.addEventListener('click',(e) => {
+                e.stopImmediatePropagation()
+                document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
+                    elem.classList.remove("hidden");
+                });
+                removeBackbutton();
+                document.querySelector('#add-comment').remove();
+                document.querySelector("#comments").remove();
+                displayComments(commentstoryid, username, gp)
+            })
+        })
+    })
+}
+
+async function submitComment(){
+    let comment = document.querySelector("#commmentcontent").value;
+    await datafetcher.addComment(comment,commentstoryid);
 }
 
 function removeBackbutton(){
-    if(document.querySelector('#backbutton')!==null){
-        let back = document.querySelector("#backbutton");
-        back.parentElement.removeChild(back);
-    }
+    document.querySelectorAll(".backbutton").forEach(button => {
+        button.remove();
+    })
 }
 
 function openMobileMenu(e){
@@ -272,34 +327,39 @@ function openMobileMenu(e){
 }
 
 function removeBackbuttonAndDisplayHamburgerMenu(){
-    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+    document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
         elem.classList.remove("hidden");
     });
     removeBackbutton();
-    clearMain();
 }
 
 function removeHamburgerMenuandDisplayBackbutton(){
-    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+    document.querySelectorAll("header>div>*:nth-child(2)").forEach(elem => {
         elem.classList.add("hidden");
     });
-    document.querySelectorAll("header div").forEach(elem => {
-        if(document.querySelector("#backbutton")===null){
-            elem.insertAdjacentHTML('beforeend','<img id="backbutton" src="assets/images/back.png">')
-        }
-        document.querySelector("#backbutton").addEventListener("click",showHome);
+    document.querySelectorAll("header>div").forEach(elem => {
+        elem.insertAdjacentHTML('beforeend','<img class="backbutton" src="assets/images/back.png">')
+        document.querySelectorAll(".backbutton").forEach(elem => elem.addEventListener("click",(e) =>{
+            e.stopImmediatePropagation();
+            removeBackbuttonAndDisplayHamburgerMenu()
+            showHome();
+        }));
     })
 }
 
 async function showProfile(){
+    clearMain();
     removeBackbuttonAndDisplayHamburgerMenu();
     const template = document.querySelector("#template-profile");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
     let user = await datafetcher.getUserData();
-    console.log(user);
+    let userscore = user.userscore
+    if(userscore == null){
+        userscore = 0;
+    }
     document.querySelector("#profileinfo").insertAdjacentHTML(`afterbegin`,`<h1>${user.username}</h1>
     <div>
-    <h2>Userscore:</h2> <h2>${user.userscore}</h2>
+    <h2>Userscore:</h2> <h2>${userscore}</h2>
     <h2>Stories:</h2> <h2>${user.stories.length}</h2>
     <h2>Races visited:</h2> <h2>${user.racesvisited}</h2>
     <h2>Posts:</h2>

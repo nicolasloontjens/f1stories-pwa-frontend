@@ -11,7 +11,7 @@ html, body {
   display: none !important;
 }
 
-a, p, h1, h2, h3, button {
+a, p, h1, h2, h3, button, input {
   text-decoration: none;
   font-family: "SFPro";
 }
@@ -315,6 +315,37 @@ main #comments button {
 main #add-comment {
   height: 90vh;
   z-index: 2;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+main #add-comment * {
+  z-index: 2;
+}
+main #add-comment h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+main #add-comment input {
+  width: 80vw;
+  margin: 0 auto;
+  display: block;
+  border-radius: 12px;
+  max-width: 400px;
+  padding: 5px 5px 40vh 5px;
+  line-height: 1rem;
+}
+main #add-comment button {
+  margin: 2rem auto;
+  display: block;
+  width: 20vw;
+  border: none;
+  background-color: #c60601;
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  text-shadow: 5px 3px 7px #1f1b1b;
+  border-radius: 12px;
 }
 
 /*# sourceMappingURL=style.css.map */

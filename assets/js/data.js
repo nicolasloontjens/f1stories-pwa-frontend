@@ -90,3 +90,16 @@ export async function getUserData(){
     })
     return response;
 }
+
+export async function addComment(comment,storyid){
+    let token = await localforage.getItem("token");
+    const data = new FormData();
+    data.set('content',comment);
+    await fetch(`${apiurl}/stories/${storyid}/comments`,{
+        method:'POST',
+        headers:{
+            'authorization': token
+        },
+        body:data
+    })
+}
