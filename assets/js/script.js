@@ -101,6 +101,7 @@ function parseJwt (token) {
 async function showHome(){
     removeBackbuttonAndDisplayHamburgerMenu()
     clearMain();
+    document.querySelectorAll(".logo").forEach(elem => {elem.addEventListener("click",showHome)});
     
     const template = document.querySelector("#template-home");
     document.querySelector("main").appendChild(template.content.cloneNode(true));
@@ -123,7 +124,7 @@ async function showHome(){
         <div class="postimages">
         </div>
         <div class="postfooter">
-            <div storyid="${post.storyid}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
+            <div storyid="${post.storyid}" username="${post.username}" gp="${post.racename}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
             <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
     </container>`);
@@ -194,7 +195,59 @@ function interactWithPost(e){
 }
 
 //view comments
-function goToComments(e){
+async function goToComments(e){
+    const storyid = e.currentTarget.getAttribute('storyid');
+    const username = e.currentTarget.getAttribute('username');
+    const gp = e.currentTarget.getAttribute('gp');
+    if(document.querySelector("#home") !== null){
+        document.querySelector("#home").classList.add("hidden");
+    }else{
+        document.querySelector("#profile").classList.add("hidden");
+    }
+    let comments = await datafetcher.getComments(storyid);
+    document.querySelector("main").insertAdjacentHTML('afterbegin',`<section id="comments">
+    <h1>${username} - ${gp}</h1>
+    <div class="comments-list">
+    </div>
+    <button storyid="${storyid}" id="displayaddcommentbutton">Add a comment</button> 
+    </section>`)
+    for(const comment of comments){
+        console.log(comment)
+        document.querySelector(".comments-list").insertAdjacentHTML("beforeend",`
+        <div>
+        <h3>${comment.username}</h3>
+        <p>${comment.content}</p>
+        </div>
+        `)
+    }
+    document.querySelector("#displayaddcommentbutton").addEventListener("click", showAddCommentPage);
+    //hide hamburger menu
+    document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+        elem.classList.add("hidden");
+    });
+    //insert backbutton + add eventlistener to go back to home without refreshing
+    document.querySelectorAll("header div").forEach(elem => {
+        if(document.querySelector("#backbutton")===null){
+            elem.insertAdjacentHTML('beforeend','<img id="backbutton" src="assets/images/back.png">')
+        }
+        document.querySelector("#backbutton").addEventListener("click",(e)=>{
+            document.querySelectorAll("header div *:nth-child(2)").forEach(elem => {
+                elem.classList.remove("hidden");
+            });
+            removeBackbutton();
+            document.querySelector('#comments').remove();
+            if(document.querySelector("#home") !== null){
+                document.querySelector("#home").classList.remove("hidden");
+            }else{
+                document.querySelector("#profile").classList.remove("hidden");
+            }
+        });
+    })
+}
+
+function showAddCommentPage(e){
+    e.preventDefault();
+    document.querySelector("#comments").classList.add("hidden");
 
 }
 
@@ -258,6 +311,7 @@ async function showProfile(){
         document.querySelector("#profileposts").insertAdjacentHTML('beforeend',`<container id="post${post.storyid}" class="post">
         <div class="postheader">
             <div>
+                <p>${user.username}</p>
                 <p>${date.getDate()}/${date.getMonth()}/${date.getFullYear()} - ${post.country}</p>
             </div>
             <p class="postscore">${post.score}</p>
@@ -268,7 +322,7 @@ async function showProfile(){
         <div class="postimages">
         </div>
         <div class="postfooter">
-            <div storyid="${post.storyid}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
+            <div storyid="${post.storyid}" username="${user.username}" gp=${post.racename}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
             <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
     </container>`);

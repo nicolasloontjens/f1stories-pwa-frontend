@@ -81,5 +81,12 @@ export async function getUserData(){
     let uid = await localforage.getItem("uid");
     const res = await fetch(`${apiurl}/users/${uid}`);
     const response = await res.json()
+    let races = await getRaces();
+    response.stories.forEach(story => {
+        let race = races.filter(function(races){
+            return races.raceid = story.raceid
+        })
+        story.racename = race[0].title
+    })
     return response;
 }

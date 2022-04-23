@@ -11,7 +11,7 @@ html, body {
   display: none !important;
 }
 
-a, p, h1, h2 {
+a, p, h1, h2, h3, button {
   text-decoration: none;
   font-family: "SFPro";
 }
@@ -151,6 +151,10 @@ main .mobile-menu div img {
   display: block;
   margin: 0 auto;
 }
+main #home {
+  height: 90vh;
+  overflow-y: scroll;
+}
 main #postcontainer, main #profileposts {
   display: flex;
   justify-content: space-evenly;
@@ -162,10 +166,13 @@ main #postcontainer *, main #profileposts * {
   max-width: 390px;
 }
 main #postcontainer .post, main #profileposts .post {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
   border-radius: 6px;
   max-width: 390px;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   background-color: #f4f4f4;
 }
 main #postcontainer .post *, main #profileposts .post * {
@@ -268,6 +275,46 @@ main #profileinfo h2:last-of-type {
 }
 main #profileposts {
   padding-top: 0;
+}
+main #comments {
+  z-index: 1;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main #comments * {
+  z-index: 1;
+}
+main #comments h1 {
+  font-size: 2rem;
+  padding: 1rem;
+}
+main #comments .comments-list {
+  height: 75vh;
+  overflow-y: scroll;
+}
+main #comments .comments-list div {
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+main #comments .comments-list div h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+main #comments button {
+  border: none;
+  background-color: #c60601;
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  text-shadow: 5px 3px 7px #1f1b1b;
+}
+main #add-comment {
+  height: 90vh;
+  z-index: 2;
 }
 
 /*# sourceMappingURL=style.css.map */
