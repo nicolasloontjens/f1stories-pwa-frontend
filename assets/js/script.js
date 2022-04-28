@@ -409,6 +409,7 @@ async function showProfile(){
         <div class="postimages">
         </div>
         <div class="postfooter">
+            <div storyid="${post.storyid}" class="profiledeletepostbutton"><img src="./assets/images/delete.png"></div>
             <div storyid="${post.storyid}" username="${user.username}" gp=${post.racename}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
             <div user="${user.username}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
@@ -424,4 +425,10 @@ async function showProfile(){
         }
     }
     addStoryEventListeners();
+
+    document.querySelectorAll(".profiledeletepostbutton").forEach(elem => elem.addEventListener("click",async (e)=>{
+        e.preventDefault();
+        await datafetcher.deletePost(e.currentTarget.getAttribute("storyid"));
+        showProfile();
+    }));
 }

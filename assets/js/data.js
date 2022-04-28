@@ -123,6 +123,16 @@ export async function addStory(filefield, raceid, content){
     })
 }
 
+export async function deletePost(storyid){
+    let token = await localforage.getItem("token");
+    await fetch(`${apiurl}/stories/${storyid}`,{
+        method:"DELETE",
+        headers:{
+            "authorization": token
+        }
+    })
+}
+
 async function getCountry(){
     const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
     const res = await response.json();
