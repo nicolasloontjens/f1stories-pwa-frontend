@@ -84,8 +84,19 @@
                 </div>
             </section>
         </template>
-        <template id="template-add-comment">
-            
+        <template id="template-create-story">
+            <section id="addstory">
+                <select id="raceselect">
+
+                </select>
+                <div>
+                    <p>Add up to 3 images:</p>
+                    <input type="file" multiple="multiple" accept="image/*" class="custom-file-input">
+                </div>
+                <div id="form-error"></div>
+                <input type="text" id="postcontent" placeholder="Tell your story here">
+                <button id="addstorysubmit">Post</button>
+            </section>
         </template>
     </section>
 </body>

@@ -103,3 +103,31 @@ export async function addComment(comment,storyid){
         body:data
     })
 }
+
+export async function addStory(filefield, raceid, content){
+    const data = new FormData();
+    for(const file of filefield.files){
+        data.append('files[]',file,file.name);
+    }
+    const country = await getCountry();
+    data.set('content', content);
+    data.set('country', country);
+    data.set('raceid',raceid);
+    let token = await localforage.getItem("token");
+    await fetch(`${apiurl}/stories`,{
+        method:"POST",
+        body:data,
+        headers:{
+            "authorization":token
+        }
+    })
+}
+
+async function getCountry(){
+    const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
+    const res = await response.json();
+    let code = res.country;
+    const response2 = await fetch(`https://restcountries.com/v3.1/alpha/${code}`)
+    const res2 = await response2.json();
+    return res2[0].name.common
+}

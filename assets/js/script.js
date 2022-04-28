@@ -126,7 +126,7 @@ async function showHome(){
         </div>
         <div class="postfooter">
             <div storyid="${post.storyid}" username="${post.username}" gp="${post.racename}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
-            <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
+            <div user="${post.username}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
     </container>`);
         if(post.liked === 1){
@@ -134,13 +134,13 @@ async function showHome(){
         }else{
             document.querySelector(`#post${post.storyid} .postfooter`).insertAdjacentHTML("afterbegin", `<div liked="false" storyid="${post.storyid}" class="postinteractionbutton"><img src="./assets/images/notliked.png"></div>`)
         }
-        if(post.image1 !== null){
+        if(post.image1 !== null && post.image1 !== undefined){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
         }
-        if(post.image2 !== null){
+        if(post.image2 !== null && post.image2 !== undefined){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image2}">`)
         }
-        if(post.image3 !== null){
+        if(post.image3 !== null && post.image3 !== undefined){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
         }
     }
@@ -161,7 +161,7 @@ function addStoryEventListeners(){
     })
     document.querySelectorAll(".postsharebutton").forEach(elem => {
         elem.addEventListener("click",()=>{
-            window.open(`https://twitter.com/intent/tweet?text=I love this post on the F1 Stories app titled: ${elem.getAttribute('title')}`, '_blank');
+            window.open(`https://twitter.com/intent/tweet?text=I'm loving the F1 Stories app! The post from ${elem.getAttribute('user')} is amazing!`, '_blank');
         });
     })
 }
@@ -321,9 +321,36 @@ function openMobileMenu(e){
     removeHamburgerMenuandDisplayBackbutton()
     //add eventlisteners to move to different pages
     document.querySelector(".viewprofilemobilebutton").addEventListener("click",showProfile);
-    //document.querySelector(".createpostmobilebutton").addEventListener("click",createPost);
+    document.querySelector(".createpostmobilebutton").addEventListener("click",createPost);
     //document.querySelector(".addracemobilebutton").addEventListener("click",addRace);
     //document.querySelector(".opensettingsmobilebutton").addEventListener("click",openSettings);
+}
+
+async function createPost(){
+    clearMain();
+    removeBackbuttonAndDisplayHamburgerMenu();
+    const template = document.querySelector("#template-create-story");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
+    const races = await datafetcher.getRaces();
+    for(let race of races){
+        document.querySelector("#raceselect").insertAdjacentHTML('beforeend',`<option value="${race.raceid}">${race.title}</option>`)
+    }
+    document.querySelector("#addstorysubmit").addEventListener("click",submitStory);
+}
+
+async function submitStory(e){
+    e.preventDefault();
+    const filefield = document.querySelector(".custom-file-input");
+    let files = filefield.files.length;
+    if(filefield.files.length > 3){
+        document.querySelector("#form-error").innerHTML = "";
+        document.querySelector("#form-error").innerHTML += "<p>You selected too many files, please select 3 max</p>"
+        return;
+    }
+    let raceid = document.querySelector("#raceselect").value;
+    let content = document.querySelector("#postcontent").value;
+    await datafetcher.addStory(filefield, raceid, content);
+    showHome();
 }
 
 function removeBackbuttonAndDisplayHamburgerMenu(){
@@ -383,16 +410,16 @@ async function showProfile(){
         </div>
         <div class="postfooter">
             <div storyid="${post.storyid}" username="${user.username}" gp=${post.racename}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
-            <div title="${post.title}"class="postsharebutton"><img src="./assets/images/share.png"></div>
+            <div user="${user.username}"class="postsharebutton"><img src="./assets/images/share.png"></div>
         </div>
     </container>`);
-        if(post.image1 !== null){
+        if(post.image1 !== null && post.image1 !== undefined){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
         }
-        if(post.image2 !== null){
+        if(post.image2 !== null && post.image2 !== undefined){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image2}">`)
         }
-        if(post.image3 !== null){
+        if(post.image3 !== null && post.image3 !== undefined){
             document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
         }
     }

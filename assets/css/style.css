@@ -11,7 +11,7 @@ html, body {
   display: none !important;
 }
 
-a, p, h1, h2, h3, button, input {
+a, p, h1, h2, h3, button, input, select {
   text-decoration: none;
   font-family: "SFPro";
 }
@@ -339,6 +339,69 @@ main #add-comment button {
   margin: 2rem auto;
   display: block;
   width: 20vw;
+  border: none;
+  background-color: #c60601;
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  text-shadow: 5px 3px 7px #1f1b1b;
+  border-radius: 12px;
+}
+main #addstory {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+main #addstory * {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  display: block;
+}
+main #addstory p {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+main #addstory select {
+  border: none;
+  border-radius: 12px;
+  background-color: #f4f4f4;
+  height: 7vh;
+  margin-bottom: 2rem;
+}
+main #addstory select:active {
+  border: none;
+  border-radius: 12px;
+}
+main #addstory div:first-of-type {
+  display: flex;
+  justify-content: space-between;
+  height: 10vh;
+}
+main #addstory input[type=text] {
+  width: 80vw;
+  margin: 0 auto;
+  display: block;
+  border-radius: 12px;
+  padding: 5px 5px 40vh 5px;
+  line-height: 1rem;
+}
+main #addstory .custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+main #addstory .custom-file-input::before {
+  content: "Select some files";
+  display: inline-block;
+  margin: 0 auto;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  padding: 5px 8px;
+  outline: none;
+  cursor: pointer;
+}
+main #addstory button {
+  margin: 2rem auto;
+  display: block;
+  width: 30vw;
   border: none;
   background-color: #c60601;
   padding: 1rem;
