@@ -12,6 +12,12 @@ async function init(){
     datafetcher = await import("./data.js");
     isLoggedIn();
     document.querySelector("#burger-menu").addEventListener("click",openMobileMenu);
+    const displaymode = await localforage.getItem("displaymode")
+    if(displaymode){
+        document.querySelector("html").classList.add("dark")
+    }else{
+        document.querySelector("html").classList.remove("dark")
+    }
 }
 
 async function isLoggedIn(){
@@ -220,10 +226,16 @@ async function displayComments(storyid, username, gp){
     for(const comment of comments){
         document.querySelector(".comments-list").insertAdjacentHTML("beforeend",`
         <div>
-        <h3>${comment.username}</h3>
-        <p>${comment.content}</p>
+            <section>
+                <h3>${comment.username}</h3>
+                <p>${comment.content}</p>
+            </section>
         </div>
         `)
+        const uid = await localforage.getItem("uid")
+        if(uid == comment.userid){
+            document.querySelector(".comments-list div:last-of-type").innerHTML += `<img commentid="${comment.commentid}" class="removecommentbutton" src="./assets/images/delete.png">`
+        }
     }
     commentsUI();
 }
@@ -253,6 +265,16 @@ function commentsUI(){
             })
         })
     })
+    document.querySelectorAll(".removecommentbutton").forEach(elem => elem.addEventListener("click",async (e)=>{
+        let id = e.target.getAttribute("commentid")
+        await datafetcher.deleteComment(id);
+        removeBackbuttonAndDisplayHamburgerMenu();
+        if(document.querySelector("#home") !== null){
+            showHome()
+        }else{
+            showProfile()
+        }
+    }))
 }
 
 async function showAddCommentPage(e){
@@ -323,7 +345,32 @@ function openMobileMenu(e){
     document.querySelector(".viewprofilemobilebutton").addEventListener("click",showProfile);
     document.querySelector(".createpostmobilebutton").addEventListener("click",createPost);
     //document.querySelector(".addracemobilebutton").addEventListener("click",addRace);
-    //document.querySelector(".opensettingsmobilebutton").addEventListener("click",openSettings);
+    document.querySelector(".opensettingsmobilebutton").addEventListener("click",openSettings);
+}
+
+async function openSettings(){
+    clearMain();
+    removeBackbuttonAndDisplayHamburgerMenu();
+    const template = document.querySelector("#template-settings");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
+    const checkboxval = await localforage.getItem('displaymode');
+    if(checkboxval){
+        document.querySelector("#darkmodecheckbox").checked = true;
+    }
+    document.querySelector("#darkmodecheckbox").addEventListener("click",changeDisplayMode);
+    document.querySelector("#logout").addEventListener("click",async ()=>{
+        await localforage.clear();
+        location.reload();
+    })
+}
+
+async function changeDisplayMode(e){
+    if(e.target.checked){
+        document.querySelector("html").classList.add("dark")
+    }else{
+        document.querySelector("html").classList.remove("dark")
+    }
+    await localforage.setItem('displaymode',e.target.checked);
 }
 
 async function createPost(){

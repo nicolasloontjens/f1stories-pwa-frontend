@@ -133,6 +133,16 @@ export async function deletePost(storyid){
     })
 }
 
+export async function deleteComment(id){
+    let token = await localforage.getItem("token");
+    await fetch(`${apiurl}/comments/${id}`,{
+        method:"DELETE",
+        headers:{
+            "authorization": token
+        }
+    })
+}
+
 async function getCountry(){
     const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
     const res = await response.json();
