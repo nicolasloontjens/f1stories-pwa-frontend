@@ -4,14 +4,15 @@ document.addEventListener("DOMContentLoaded",init);
 
 let datafetcher = null;
 let reader = null;
-const apiurl = "http://localhost:3001/api";
-const backendurl = "http://localhost:3001"
+const apiurl = "https://f1stories.herokuapp.com/api";
+const backendurl = "https://f1stories.herokuapp.com"
 let commentstoryid = 0;
 
 
 async function init(){
     datafetcher = await import("./data.js");
     reader = await import("./reader.js");
+    await registerServiceWorker();
     isLoggedIn();
     document.querySelector("#burger-menu").addEventListener("click",openMobileMenu);
     const displaymode = await localforage.getItem("displaymode")
@@ -19,6 +20,12 @@ async function init(){
         document.querySelector("html").classList.add("dark")
     }else{
         document.querySelector("html").classList.remove("dark")
+    }
+}
+
+async function registerServiceWorker(){
+    if('serviceWorker' in navigator){
+        await navigator.serviceWorker.register("/sw.js");
     }
 }
 
@@ -143,13 +150,13 @@ async function showHome(){
             document.querySelector(`#post${post.storyid} .postfooter`).insertAdjacentHTML("afterbegin", `<div liked="false" storyid="${post.storyid}" class="postinteractionbutton"><img src="./assets/images/notliked.png"></div>`)
         }
         if(post.image1 !== null && post.image1 !== undefined){
-            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${post.image1}">`)
         }
         if(post.image2 !== null && post.image2 !== undefined){
-            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image2}">`)
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${post.image2}">`)
         }
         if(post.image3 !== null && post.image3 !== undefined){
-            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${post.image3}">`)
         }
     }
     addStoryEventListeners();
@@ -464,13 +471,13 @@ async function showProfile(){
         </div>
     </container>`);
         if(post.image1 !== null && post.image1 !== undefined){
-            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image1}">`)
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${post.image1}">`)
         }
         if(post.image2 !== null && post.image2 !== undefined){
-            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image2}">`)
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${post.image2}">`)
         }
         if(post.image3 !== null && post.image3 !== undefined){
-            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${backendurl}${post.image3}">`)
+            document.querySelector(`#post${post.storyid} .postimages`).insertAdjacentHTML("beforeend",`<img class="postimage" src="${post.image3}">`)
         }
     }
     addStoryEventListeners();
@@ -482,8 +489,7 @@ async function showProfile(){
     }));
 }
 
-async function addRace(e){
-    e.preventDefault();
+async function addRace(){
     clearMain();
     removeBackbuttonAndDisplayHamburgerMenu();
     const template = document.querySelector("#template-add-race");
@@ -501,13 +507,18 @@ export async function receiveBarcodeInput(code){
         })
         if(therace.length === 1){
             await datafetcher.addRace(therace[0].title)
+            clearMain();
+            document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="raceconfirmation"><h1>Race added to your profile!</h1></div>`)
         }else{
             clearMain();
-            document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="error"><h1>Invalid race.</h1></div>`)
+            document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="raceconfirmation"><h1>Invalid race.</h1><button id="tryagain">Try again?</button></div>`)
+            document.querySelector("#tryagain").addEventListener("click",()=>{
+                addRace();
+            })
         }
     }else{
         clearMain();
-        document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="error"><h1>Something went wrong.</h1></div>`)
+        document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="raceconfirmation"><h1>Something went wrong.</h1></div>`)
     }
 }
 

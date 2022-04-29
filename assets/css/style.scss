@@ -549,4 +549,27 @@ main{
             border-radius: 50%;
         }
     }
+    #raceconfirmation{
+        box-sizing: border-box;
+        padding: 1rem;
+        h1{
+            font-size: 2rem;
+            text-align: center;
+            width: 50vw;
+            display:block;
+            margin:0 auto;
+        }
+        button{
+            margin: 2rem auto;
+            display: block;
+            width:35vw;
+            border: none;
+            background-color: $f1red;
+            padding: 1rem;
+            font-size: 1.2rem;
+            color: white;
+            text-shadow: 5px 3px 7px rgb(31, 27, 27);
+            border-radius: 12px;
+        }
+    }
 }

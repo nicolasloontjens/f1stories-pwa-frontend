@@ -1,0 +1,17 @@
+{
+    "name": "Nicolas Loontjens",
+    "short_name": "nicolasloontjens",
+    "theme_color": "#c60601",
+    "background_color": "#c60601",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+        {
+            "src":"./assets/images/favicon.png",
+            "sizes": "225x225",
+            "type":"image/png"
+        }
+    ]
+  }

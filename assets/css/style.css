@@ -521,5 +521,28 @@ main #settings .slider.round {
 main #settings .slider.round:before {
   border-radius: 50%;
 }
+main #raceconfirmation {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+main #raceconfirmation h1 {
+  font-size: 2rem;
+  text-align: center;
+  width: 50vw;
+  display: block;
+  margin: 0 auto;
+}
+main #raceconfirmation button {
+  margin: 2rem auto;
+  display: block;
+  width: 35vw;
+  border: none;
+  background-color: #c60601;
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  text-shadow: 5px 3px 7px #1f1b1b;
+  border-radius: 12px;
+}
 
 /*# sourceMappingURL=style.css.map */

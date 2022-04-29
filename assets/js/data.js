@@ -1,4 +1,4 @@
-const apiurl = "https://localhost:3001/api";
+const apiurl = "https://f1stories.herokuapp.com/api";
 
 export async function registerUser(data){
     const res = await fetch(`${apiurl}/users/register`,{
