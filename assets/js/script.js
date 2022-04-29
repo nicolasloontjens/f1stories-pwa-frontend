@@ -3,6 +3,7 @@
 document.addEventListener("DOMContentLoaded",init);
 
 let datafetcher = null;
+let reader = null;
 const apiurl = "http://localhost:3001/api";
 const backendurl = "http://localhost:3001"
 let commentstoryid = 0;
@@ -10,6 +11,7 @@ let commentstoryid = 0;
 
 async function init(){
     datafetcher = await import("./data.js");
+    reader = await import("./reader.js");
     isLoggedIn();
     document.querySelector("#burger-menu").addEventListener("click",openMobileMenu);
     const displaymode = await localforage.getItem("displaymode")
@@ -344,7 +346,7 @@ function openMobileMenu(e){
     //add eventlisteners to move to different pages
     document.querySelector(".viewprofilemobilebutton").addEventListener("click",showProfile);
     document.querySelector(".createpostmobilebutton").addEventListener("click",createPost);
-    //document.querySelector(".addracemobilebutton").addEventListener("click",addRace);
+    document.querySelector(".addracemobilebutton").addEventListener("click",addRace);
     document.querySelector(".opensettingsmobilebutton").addEventListener("click",openSettings);
 }
 
@@ -479,3 +481,33 @@ async function showProfile(){
         showProfile();
     }));
 }
+
+async function addRace(e){
+    e.preventDefault();
+    clearMain();
+    removeBackbuttonAndDisplayHamburgerMenu();
+    const template = document.querySelector("#template-add-race");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
+    await reader.init();
+}
+
+export async function receiveBarcodeInput(code){
+    if(code.success){
+        let barcode = code.barcode;
+        console.log(barcode);
+        let races = await datafetcher.getRaces();
+        let therace = races.filter(function(races){
+            return races.title == barcode;
+        })
+        if(therace.length === 1){
+            await datafetcher.addRace(therace[0].title)
+        }else{
+            clearMain();
+            document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="error"><h1>Invalid race.</h1></div>`)
+        }
+    }else{
+        clearMain();
+        document.querySelector("main").insertAdjacentHTML("afterbegin",`<div id="error"><h1>Something went wrong.</h1></div>`)
+    }
+}
+

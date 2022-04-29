@@ -1,4 +1,4 @@
-const apiurl = "http://localhost:3001/api";
+const apiurl = "https://localhost:3001/api";
 
 export async function registerUser(data){
     const res = await fetch(`${apiurl}/users/register`,{
@@ -141,6 +141,21 @@ export async function deleteComment(id){
             "authorization": token
         }
     })
+}
+
+export async function addRace(race){
+    console.log(race);
+    let token = await localforage.getItem("token");
+    let uid = await localforage.getItem("uid");
+    const data = new FormData();
+    data.set("race",race);
+    await fetch(`${apiurl}/users/${uid}/race`,{
+        method:"POST",
+        body:data,
+        headers:{
+            "authorization":token
+        }
+    });
 }
 
 async function getCountry(){
