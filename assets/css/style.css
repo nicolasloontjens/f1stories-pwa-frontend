@@ -243,12 +243,17 @@ main #postcontainer .post .postfooter, main #profileposts .post .postfooter {
   border-bottom-right-radius: 6px;
   padding: 1rem;
 }
+main #postcontainer .post .postfooter .profiledeletepostbutton *, main #profileposts .post .postfooter .profiledeletepostbutton * {
+  display: block;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
 main #postcontainer .post .postfooter .postinteractionbutton *, main #profileposts .post .postfooter .postinteractionbutton * {
   display: block;
   margin-left: 1rem;
   margin-top: 0.5rem;
 }
-main #postcontainer .post .postfooter .postsharebutton *, main #profileposts .post .postfooter .postsharebutton * {
+main #postcontainer .post .postfooter .postsharebutton *, main #postcontainer .post .postfooter .posteditbutton *, main #profileposts .post .postfooter .postsharebutton *, main #profileposts .post .postfooter .posteditbutton * {
   float: right;
   display: block;
   margin-right: 2rem;
@@ -340,21 +345,21 @@ main #comments button {
   color: white;
   text-shadow: 5px 3px 7px #1f1b1b;
 }
-main #add-comment {
+main #add-comment, main #edit {
   height: 90vh;
   z-index: 2;
   box-sizing: border-box;
   padding: 1rem;
 }
-main #add-comment * {
+main #add-comment *, main #edit * {
   z-index: 2;
 }
-main #add-comment h1 {
+main #add-comment h1, main #edit h1 {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 1rem;
 }
-main #add-comment input {
+main #add-comment input, main #edit input {
   width: 80vw;
   margin: 0 auto;
   display: block;
@@ -363,10 +368,10 @@ main #add-comment input {
   padding: 5px 5px 40vh 5px;
   line-height: 1rem;
 }
-main #add-comment button {
+main #add-comment button, main #edit button {
   margin: 2rem auto;
   display: block;
-  width: 20vw;
+  width: 30vw;
   border: none;
   background-color: #c60601;
   padding: 1rem;

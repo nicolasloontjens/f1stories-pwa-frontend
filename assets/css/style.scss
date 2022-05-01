@@ -261,7 +261,13 @@ main{
                 border-bottom-left-radius: 6px;
                 border-bottom-right-radius: 6px;
                 padding:1rem;
-                
+                .profiledeletepostbutton{
+                    *{
+                        display:block;
+                        margin-left: 1rem;
+                        margin-top: 0.5rem;
+                    }
+                }
                 .postinteractionbutton{
                     *{
                         display: block;
@@ -269,7 +275,7 @@ main{
                         margin-top: 0.5rem;
                     }
                 }
-                .postsharebutton{
+                .postsharebutton, .posteditbutton{
                     *{
                         float:right;
                         display: block;
@@ -368,7 +374,7 @@ main{
             text-shadow: 5px 3px 7px rgb(31, 27, 27);
         }
     }
-    #add-comment{
+    #add-comment, #edit{
         height: 90vh;
         z-index: 2;
         *{
@@ -393,7 +399,7 @@ main{
         button{
             margin: 2rem auto;
             display: block;
-            width:20vw;
+            width:30vw;
             border: none;
             background-color: $f1red;
             padding: 1rem;

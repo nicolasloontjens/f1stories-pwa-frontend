@@ -106,8 +106,8 @@ export async function addComment(comment,storyid){
 
 export async function addStory(filefield, raceid, content){
     const data = new FormData();
-    for(const file of filefield.files){
-        data.append('files[]',file,file.name);
+    for(let i = 0; i < Array.from(filefield.files).length; i++){
+        data.append(`file${i}`,filefield.files[i]);
     }
     const country = await getCountry();
     data.set('content', content);
@@ -144,16 +144,29 @@ export async function deleteComment(id){
 }
 
 export async function addRace(race){
-    console.log(race);
     let token = await localforage.getItem("token");
     let uid = await localforage.getItem("uid");
-    const data = new FormData();
+    let data = new FormData();
     data.set("race",race);
     await fetch(`${apiurl}/users/${uid}/race`,{
         method:"POST",
         body:data,
         headers:{
             "authorization":token
+        }
+    });
+}
+//post for put request because laravel doesn't handle put requests well
+export async function updatePost(content, storyid){
+    let token = await localforage.getItem("token");
+    let data = new FormData();
+    data.set("content",content);
+    data.set('_method','PUT');
+    await fetch(`${apiurl}/stories/${storyid}`,{
+        method:'POST',
+        body:data,
+        headers:{
+            'authorization':token
         }
     });
 }

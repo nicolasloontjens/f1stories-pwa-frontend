@@ -468,6 +468,7 @@ async function showProfile(){
             <div storyid="${post.storyid}" class="profiledeletepostbutton"><img src="./assets/images/delete.png"></div>
             <div storyid="${post.storyid}" username="${user.username}" gp=${post.racename}" class="postcommentbutton"><img src="./assets/images/comments.png"><p>${comments.length}</p></div>
             <div user="${user.username}"class="postsharebutton"><img src="./assets/images/share.png"></div>
+            <div storyid="${post.storyid}"class="posteditbutton"><img src="./assets/images/edit.png"></div>
         </div>
     </container>`);
         if(post.image1 !== null && post.image1 !== undefined){
@@ -487,6 +488,25 @@ async function showProfile(){
         await datafetcher.deletePost(e.currentTarget.getAttribute("storyid"));
         showProfile();
     }));
+    document.querySelectorAll(".posteditbutton").forEach(elem => elem.addEventListener("click",editPost));
+}
+
+async function editPost(e){
+    e.preventDefault();
+    let content = document.querySelector(`#post${e.currentTarget.getAttribute('storyid')} .postbody p`).innerHTML;
+    clearMain();
+    const template = document.querySelector("#template-edit");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
+    document.querySelector("#edit-input-field").value = content;
+    document.querySelector("#submit-edit").setAttribute("storyid", e.currentTarget.getAttribute('storyid'));
+    document.querySelector("#submit-edit").addEventListener("click",submitPostEdit);
+}
+
+async function submitPostEdit(e){
+    e.preventDefault();
+    let content = document.querySelector("#edit-input-field").value;
+    await datafetcher.updatePost(content, e.currentTarget.getAttribute("storyid"));
+    showProfile();
 }
 
 async function addRace(){
