@@ -243,7 +243,8 @@ async function displayComments(storyid, username, gp){
         `)
         const uid = await localforage.getItem("uid")
         if(uid == comment.userid){
-            document.querySelector(".comments-list div:last-of-type").innerHTML += `<img commentid="${comment.commentid}" class="removecommentbutton" src="./assets/images/delete.png">`
+            document.querySelector(".comments-list div:last-of-type").innerHTML += `<div><img commentid="${comment.commentid}" class="removecommentbutton" src="./assets/images/delete.png">
+            <img commentid="${comment.commentid}" storyid="${comment.storyid}" content="${comment.content}" class="editcommentbutton" src="./assets/images/edit.png"></div>`
         }
     }
     commentsUI();
@@ -284,6 +285,26 @@ function commentsUI(){
             showProfile()
         }
     }))
+    document.querySelectorAll(".editcommentbutton").forEach(elem => elem.addEventListener("click",showEditComment));
+}
+
+function showEditComment(e){
+    let content = e.currentTarget.getAttribute('content')
+    clearMain();
+    const template = document.querySelector("#template-edit");
+    document.querySelector("main").appendChild(template.content.cloneNode(true));
+    document.querySelector("#edit-input-field").value = content;
+    document.querySelector("#submit-edit").setAttribute("commentid", e.currentTarget.getAttribute('commentid'));
+    document.querySelector("#submit-edit").setAttribute("storyid", e.currentTarget.getAttribute('storyid'));
+    document.querySelector("#submit-edit").addEventListener("click",submitCommentEdit);
+}
+
+async function submitCommentEdit(e){
+    e.preventDefault();
+    let content = document.querySelector("#edit-input-field").value;
+    await datafetcher.updateComment(content, e.currentTarget.getAttribute("storyid"), e.currentTarget.getAttribute("commentid"));
+    removeBackbuttonAndDisplayHamburgerMenu();
+    showHome();
 }
 
 async function showAddCommentPage(e){

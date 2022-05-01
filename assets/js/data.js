@@ -171,6 +171,20 @@ export async function updatePost(content, storyid){
     });
 }
 
+export async function updateComment(content, commentid){
+    let token = await localforage.getItem("token");
+    let data = new FormData();
+    data.set("content",content);
+    data.set('_method','PUT');
+    await fetch(`${apiurl}/comments/${commentid}`,{
+        method:'POST',
+        body:data,
+        headers:{
+            'authorization':token
+        }
+    });
+}
+
 async function getCountry(){
     const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
     const res = await response.json();

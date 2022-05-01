@@ -321,6 +321,9 @@ main #comments .comments-list {
   height: 75vh;
   overflow-y: scroll;
 }
+main #comments .comments-list .removecommentbutton {
+  padding-right: 1rem;
+}
 main #comments .comments-list div {
   background-color: #f4f4f4;
   box-sizing: border-box;

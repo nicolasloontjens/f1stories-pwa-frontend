@@ -1,6 +1,6 @@
 {
-    "name": "Nicolas Loontjens",
-    "short_name": "nicolasloontjens",
+    "name": "Formula 1 Stories",
+    "short_name": "F1 Stories",
     "theme_color": "#c60601",
     "background_color": "#c60601",
     "display": "fullscreen",
@@ -10,7 +10,7 @@
     "icons": [
         {
             "src":"./assets/images/favicon.png",
-            "sizes": "225x225",
+            "sizes": "256x256",
             "type":"image/png"
         }
     ]
