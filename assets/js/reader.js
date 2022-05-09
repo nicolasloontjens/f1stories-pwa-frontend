@@ -2,7 +2,7 @@ let script = null;
 export async function init(){
     script = await import("./script.js");
     if(!('BarcodeDetector' in window)){
-        await script.testfun({success:false});
+        await script.receiveBarcodeInput({success:false});
     }
     const video = document.querySelector("#video");
     if(navigator.mediaDevices){

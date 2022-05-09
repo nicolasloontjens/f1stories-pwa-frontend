@@ -21,6 +21,7 @@ async function init(){
     }else{
         document.querySelector("html").classList.remove("dark")
     }
+    addDesktopEventListeners();
 }
 
 async function registerServiceWorker(){
@@ -100,6 +101,13 @@ function handleLogin(res){
         removeBackbutton();
         showHome();
     }
+}
+
+function addDesktopEventListeners(){
+    document.querySelector("#desktopcreatepost").addEventListener("click", createPost);
+    document.querySelector("#desktopgotoprofile").addEventListener("click", showProfile);
+    document.querySelector("#desktopaddrace").addEventListener("click", addRace);
+    document.querySelector("#desktopsettings").addEventListener("click", openSettings);  
 }
 
 function clearMain(){
@@ -372,10 +380,22 @@ function openMobileMenu(e){
     document.querySelector("main").appendChild(template.content.cloneNode(true));
     removeHamburgerMenuandDisplayBackbutton()
     //add eventlisteners to move to different pages
-    document.querySelector(".viewprofilemobilebutton").addEventListener("click",showProfile);
-    document.querySelector(".createpostmobilebutton").addEventListener("click",createPost);
-    document.querySelector(".addracemobilebutton").addEventListener("click",addRace);
-    document.querySelector(".opensettingsmobilebutton").addEventListener("click",openSettings);
+    document.querySelector(".viewprofilemobilebutton").addEventListener("click",(e) => {
+        e.preventDefault();
+        showProfile
+    });
+    document.querySelector(".createpostmobilebutton").addEventListener("click",(e)=>{
+        e.preventDefault();
+        createPost();
+    });
+    document.querySelector(".addracemobilebutton").addEventListener("click",(e)=>{
+        e.preventDefault();
+        addRace();
+    });
+    document.querySelector(".opensettingsmobilebutton").addEventListener("click",(e)=>{
+        e.preventDefault();
+        openSettings();
+    });
 }
 
 async function openSettings(){
