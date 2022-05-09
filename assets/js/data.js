@@ -186,10 +186,16 @@ export async function updateComment(content, commentid){
 }
 
 async function getCountry(){
-    const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
-    const res = await response.json();
-    let code = res.country;
-    const response2 = await fetch(`https://restcountries.com/v3.1/alpha/${code}`)
-    const res2 = await response2.json();
-    return res2[0].name.common
+    const thecode = "";
+    try{
+        const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
+        const res = await response.json();
+        let code = res.country;
+        const response2 = await fetch(`https://restcountries.com/v3.1/alpha/${code}`)
+        const res2 = await response2.json();
+        thecode = res2[0].name.common;
+    }catch(e){
+        thecode = "NA"
+    }
+    return thecode
 }
