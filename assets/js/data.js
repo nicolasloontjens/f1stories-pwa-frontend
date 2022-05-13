@@ -186,7 +186,7 @@ export async function updateComment(content, commentid){
 }
 
 async function getCountry(){
-    const thecode = "";
+    let thecode = "";
     try{
         const response = await fetch("https://ipinfo.io?token=7c6ec19f4b6e0c");
         const res = await response.json();
