@@ -382,7 +382,7 @@ function openMobileMenu(e){
     //add eventlisteners to move to different pages
     document.querySelector(".viewprofilemobilebutton").addEventListener("click",(e) => {
         e.preventDefault();
-        showProfile
+        showProfile();
     });
     document.querySelector(".createpostmobilebutton").addEventListener("click",(e)=>{
         e.preventDefault();
