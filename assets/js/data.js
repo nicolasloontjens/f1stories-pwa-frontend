@@ -172,6 +172,7 @@ export async function updatePost(content, storyid){
 }
 
 export async function updateComment(content, commentid){
+    console.log(commentid)
     let token = await localforage.getItem("token");
     let data = new FormData();
     data.set("content",content);

@@ -310,7 +310,7 @@ function showEditComment(e){
 async function submitCommentEdit(e){
     e.preventDefault();
     let content = document.querySelector("#edit-input-field").value;
-    await datafetcher.updateComment(content, e.currentTarget.getAttribute("storyid"), e.currentTarget.getAttribute("commentid"));
+    await datafetcher.updateComment(content, e.currentTarget.getAttribute("commentid"));
     removeBackbuttonAndDisplayHamburgerMenu();
     showHome();
 }
